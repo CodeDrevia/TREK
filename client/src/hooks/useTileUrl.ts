@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { useSettingsStore } from '../store/settingsStore'
-import { resolveTileUrl } from '../utils/tileUrl'
+import { darkTileTwin, resolveTileUrl } from '../utils/tileUrl'
+import { useIsDark } from './useIsDark'
 
 /**
  * Every logged-in map reads its tile template through here so the CARTO key
@@ -18,4 +19,15 @@ export function useTileUrl(fallback: string, ignoreUserTemplate = false): string
 
 export function useCartoApiKey(): string {
   return useSettingsStore((s) => s.settings.carto_api_key) ?? ''
+}
+
+/**
+ * A resolved tile URL that follows the theme: in dark mode a light preset (the
+ * OpenFreeMap Positron default, CARTO light) becomes its dark twin. A custom
+ * template has no twin and stays as chosen. Used by the planner maps, which
+ * otherwise drew a bright basemap beside dark panels (Drevia fork).
+ */
+export function useThemedTileUrl(resolved: string): string {
+  const dark = useIsDark()
+  return useMemo(() => (dark ? darkTileTwin(resolved) : resolved), [dark, resolved])
 }

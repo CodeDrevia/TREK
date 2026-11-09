@@ -91,6 +91,19 @@ describe('PlanMapStage', () => {
     expect(screen.queryByTestId('alternatives-bar')).toBeNull()
   })
 
+  it('FE-PAGE-PLANNER-MAPSTAGE-DRV-001: in the dark theme the Positron default becomes the dark basemap, a custom one stays (Drevia fork)', () => {
+    document.documentElement.classList.add('dark')
+    try {
+      const positron = renderStage({ mapTileUrl: 'https://tiles.openfreemap.org/styles/positron' })
+      expect(recorded('map')).toMatchObject({ tileUrl: 'https://tiles.openfreemap.org/styles/dark' })
+      positron.unmount()
+      renderStage()
+      expect(recorded('map')).toMatchObject({ tileUrl: 'tiles' })
+    } finally {
+      document.documentElement.classList.remove('dark')
+    }
+  })
+
   it('FE-PAGE-PLANNER-MAPSTAGE-002: in road trip mode the map draws the drive and edits it', () => {
     const { props } = renderStage({ roadtripActive: true })
     const map = recorded('map')

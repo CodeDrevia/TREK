@@ -145,3 +145,28 @@ export function isOfflineForbiddenTemplate(template: string): boolean {
     return false;
   }
 }
+
+/**
+ * Light basemaps that have a dark twin from the same provider and design. A map
+ * that follows the theme (the trip planner) swaps one for the other in dark
+ * mode; any other template — a self-hosted server, OSM, satellite — is a choice
+ * the user made on purpose and stays as it is (Drevia fork).
+ */
+const DARK_TWIN: Record<string, string> = {
+  'https://tiles.openfreemap.org/styles/positron': 'https://tiles.openfreemap.org/styles/dark',
+  'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png': 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+  'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png': 'https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png',
+}
+
+/**
+ * The dark twin of an already resolved tile URL, or the URL itself when it has
+ * none. Works on the resolved form so the CARTO key appended by
+ * resolveTileUrl() survives the swap.
+ */
+export function darkTileTwin(resolved: string): string {
+  const bare = stripTileApiKey(resolved)
+  const twin = DARK_TWIN[bare]
+  if (!twin) return resolved
+  const key = /[?&]key=([^&]*)/.exec(resolved)?.[1]
+  return key ? withTileApiKey(twin, decodeURIComponent(key)) : twin
+}
