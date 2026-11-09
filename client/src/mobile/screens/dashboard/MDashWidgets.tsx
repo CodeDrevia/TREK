@@ -101,7 +101,8 @@ function MCurrencyWidget(): React.ReactElement {
   const { t } = useTranslation()
   // The request outlives the widget: this is a third-party endpoint on a mobile
   // screen a user can leave immediately, so a pending one is aborted on the way out.
-  const { from, to, setFrom, setTo, amount, setAmount, currencies, rate, converted, swap, fetchRates } = useCurrencyConverter()
+  const conv = useCurrencyConverter()
+  const { fetchRates } = conv
 
   return (
     <WidgetPanel
@@ -113,36 +114,51 @@ function MCurrencyWidget(): React.ReactElement {
         </button>
       }
     >
-      <div className="mt-[11px] flex items-center gap-2">
-        <div className="min-w-0 flex-1 rounded-[14px] border border-[color:var(--m-rowbr)] bg-[color:var(--m-ic)] p-[11px_12px]">
-          <div className="font-geist text-[0.5625rem] font-bold uppercase tracking-[.1em] text-m-faint">{t('dashboard.fx.from')}</div>
-          <input
-            value={amount}
-            onChange={e => setAmount(e.target.value)}
-            inputMode="decimal"
-            aria-label={t('dashboard.fx.from')}
-            className="w-full border-none bg-transparent pt-[2px] font-[inherit] text-[1.5rem] font-bold tabular-nums text-m-ink outline-none"
-          />
-          <CurrencyPicker value={from} currencies={currencies} onChange={setFrom} />
-        </div>
-        <button
-          type="button"
-          onClick={swap}
-          aria-label={t('dashboard.aria.swapCurrencies')}
-          className="flex h-[38px] w-[38px] flex-none items-center justify-center rounded-full bg-m-act text-m-actfg"
-        >
-          <ArrowRightLeft size={15} strokeWidth={2.2} />
-        </button>
-        <div className="min-w-0 flex-1 rounded-[14px] border border-[color:var(--m-rowbr)] bg-[color:var(--m-ic)] p-[11px_12px]">
-          <div className="font-geist text-[0.5625rem] font-bold uppercase tracking-[.1em] text-m-faint">{t('dashboard.fx.to')}</div>
-          <div className="truncate pt-[2px] text-[1.5rem] font-bold tabular-nums">{converted != null ? converted.toFixed(2) : '—'}</div>
-          <CurrencyPicker value={to} currencies={currencies} onChange={setTo} />
-        </div>
-      </div>
-      <div className="mt-[9px] font-geist text-[0.65625rem] text-m-muted">
-        {rate != null ? <span dir="ltr">{`1 ${from} = ${rate.toFixed(4)} ${to}`}</span> : t('dashboard.fx.unavailable')}
-      </div>
+      <MCurrencyConverterBody conv={conv} />
     </WidgetPanel>
+  )
+}
+
+// The converter's fields and rate line, shared by the dashboard widget and the
+// trip's Costs tab (Drevia fork), each with its own hook state.
+export function MCurrencyConverterBody({ conv, rateAction }: {
+  conv: ReturnType<typeof useCurrencyConverter>; rateAction?: React.ReactNode
+}): React.ReactElement {
+  const { t } = useTranslation()
+  const { from, to, setFrom, setTo, amount, setAmount, currencies, rate, converted, swap } = conv
+  return (
+    <>
+    <div className="mt-[11px] flex items-center gap-2">
+      <div className="min-w-0 flex-1 rounded-[14px] border border-[color:var(--m-rowbr)] bg-[color:var(--m-ic)] p-[11px_12px]">
+        <div className="font-geist text-[0.5625rem] font-bold uppercase tracking-[.1em] text-m-faint">{t('dashboard.fx.from')}</div>
+        <input
+          value={amount}
+          onChange={e => setAmount(e.target.value)}
+          inputMode="decimal"
+          aria-label={t('dashboard.fx.from')}
+          className="w-full border-none bg-transparent pt-[2px] font-[inherit] text-[1.5rem] font-bold tabular-nums text-m-ink outline-none"
+        />
+        <CurrencyPicker value={from} currencies={currencies} onChange={setFrom} />
+      </div>
+      <button
+        type="button"
+        onClick={swap}
+        aria-label={t('dashboard.aria.swapCurrencies')}
+        className="flex h-[38px] w-[38px] flex-none items-center justify-center rounded-full bg-m-act text-m-actfg"
+      >
+        <ArrowRightLeft size={15} strokeWidth={2.2} />
+      </button>
+      <div className="min-w-0 flex-1 rounded-[14px] border border-[color:var(--m-rowbr)] bg-[color:var(--m-ic)] p-[11px_12px]">
+        <div className="font-geist text-[0.5625rem] font-bold uppercase tracking-[.1em] text-m-faint">{t('dashboard.fx.to')}</div>
+        <div className="truncate pt-[2px] text-[1.5rem] font-bold tabular-nums">{converted != null ? converted.toFixed(2) : '—'}</div>
+        <CurrencyPicker value={to} currencies={currencies} onChange={setTo} />
+      </div>
+    </div>
+    <div className="mt-[9px] flex items-center gap-2 font-geist text-[0.65625rem] text-m-muted">
+      {rate != null ? <span dir="ltr">{`1 ${from} = ${rate.toFixed(4)} ${to}`}</span> : t('dashboard.fx.unavailable')}
+      {rateAction}
+    </div>
+    </>
   )
 }
 

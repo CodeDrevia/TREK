@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event'
 import type { CostsFilterProps } from './CostsToolbar'
 import CostsToolbar from './CostsToolbar'
 import type { TripMember } from './BudgetPanelMemberChips'
+import { useSettingsStore } from '../../store/settingsStore'
 
 const PEOPLE: TripMember[] = [
   { id: 1, username: 'ada', avatar_url: '/uploads/avatars/ada.png' },
@@ -161,4 +162,31 @@ describe('CostsToolbar', () => {
       expect(onView).toHaveBeenCalledWith('table')
     })
   })
+
+  describe('currency converter (Drevia fork)', () => {
+    it('FE-COSTSBAR-DRV-001: opens the converter on the trip currency, and only when handed one', async () => {
+      useSettingsStore.setState({ isLoaded: true })
+      vi.stubGlobal('fetch', vi.fn(() => Promise.resolve({ json: () => Promise.resolve([{ quote: 'EUR', rate: 0.006 }]) } as Response)))
+      try {
+        const { unmount } = render(
+          <CostsToolbar dateMeta={null} people={PEOPLE} me={1} colorFor={() => '#000'} canEdit={false} canSettle={false}
+            onSettleAll={vi.fn()} onAddExpense={vi.fn()} />,
+        )
+        expect(screen.queryByRole('button', { name: 'Converter' })).toBeNull()
+        unmount()
+
+        setup({ tripCurrency: 'JPY' })
+        const toggle = screen.getByRole('button', { name: 'Converter' })
+        expect(screen.queryByRole('region', { name: 'Converter' })).toBeNull()
+        await userEvent.setup().click(toggle)
+        expect(toggle).toHaveAttribute('aria-expanded', 'true')
+        const panel = screen.getByRole('region', { name: 'Converter' })
+        expect(within(panel).getAllByText('JPY').length).toBeGreaterThan(0)
+        expect(await within(panel).findByText('1 JPY = 0.0060 EUR')).toBeInTheDocument()
+      } finally {
+        vi.unstubAllGlobals()
+      }
+    })
+  })
 })
+

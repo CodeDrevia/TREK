@@ -1,10 +1,11 @@
 import { useCallback, useRef, useState, type ReactNode } from 'react'
-import { Check, Download, Filter, Plus, RotateCcw, Rows3, ScanLine, Search, Table2, X } from 'lucide-react'
+import { ArrowRightLeft, Check, Download, Filter, Plus, RotateCcw, Rows3, ScanLine, Search, Table2, X } from 'lucide-react'
 import { useTranslation } from '../../i18n'
 import type { TripMember } from './BudgetPanelMemberChips'
 import { Tooltip } from '../shared/Tooltip'
 import { POPOVER, POPOVER_CAPTION, POPOVER_DIVIDER, useDismissOnOutside } from '../Packing/packingPopoverStyles'
 import { PopoverItem } from '../Packing/PackingPopover'
+import CostsConverter from './CostsConverter'
 
 export type OwnerFilter = 'all' | 'mine' | 'owed'
 /** The day-by-day list, or the categorized table the old budget had. */
@@ -46,6 +47,8 @@ interface CostsToolbarProps {
   /** The switch between the list and the table; left out, the bar has none. */
   view?: CostsView
   onView?: (view: CostsView) => void
+  /** The trip's currency: shown, the bar offers the currency converter on it (Drevia fork). */
+  tripCurrency?: string
 }
 
 const BODY_SIZE = 'calc(13px * var(--fs-scale-body, 1))'
@@ -57,8 +60,9 @@ const BAR_BTN = 'relative grid h-9 w-9 flex-none place-items-center rounded-[10p
  * Bookings, Lists and Files open with: the tab's name and what the numbers
  * cover, then how to narrow the ledger and the actions on the right.
  */
-export default function CostsToolbar({ dateMeta, people, me, colorFor, canEdit, canSettle, onSettleAll, onAddExpense, onScanReceipt, filters, view, onView }: CostsToolbarProps) {
+export default function CostsToolbar({ dateMeta, people, me, colorFor, canEdit, canSettle, onSettleAll, onAddExpense, onScanReceipt, filters, view, onView, tripCurrency }: CostsToolbarProps) {
   const { t } = useTranslation()
+  const [converterOpen, setConverterOpen] = useState(false)
   const searchRef = useRef<HTMLInputElement>(null)
   const chip = 'inline-flex items-center whitespace-nowrap rounded-full bg-surface-card px-3 py-1.5 font-medium text-content-muted shadow-sm'
   const button = 'inline-flex h-9 items-center gap-1.5 rounded-[10px] border-0 px-3.5 font-medium hover:opacity-[0.88]'
@@ -137,6 +141,15 @@ export default function CostsToolbar({ dateMeta, people, me, colorFor, canEdit, 
         </div>
       )}
 
+      {tripCurrency && (
+        <Tooltip label={t('costs.converter')}>
+          <button type="button" onClick={() => setConverterOpen(o => !o)} aria-expanded={converterOpen} aria-label={t('costs.converter')}
+            className={`${BAR_BTN} ${converterOpen ? 'text-content' : ''}`}>
+            <ArrowRightLeft size={15} strokeWidth={2} />
+          </button>
+        </Tooltip>
+      )}
+
       {canEdit && (
         <>
           {filters && <span className="mx-0.5 h-[22px] w-px flex-none bg-edge-faint" />}
@@ -159,6 +172,8 @@ export default function CostsToolbar({ dateMeta, people, me, colorFor, canEdit, 
           </div>
         </>
       )}
+
+      {tripCurrency && converterOpen && <CostsConverter key={tripCurrency} tripCurrency={tripCurrency} />}
     </div>
   )
 }

@@ -87,6 +87,7 @@ const budget: TranslationStrings = {
   'costs.youLent': '{amount} 빌려줌',
   'costs.youBorrowed': '{amount} 빌림',
   'costs.settleUp': '정산하기',
+  'costs.converter': '환율 계산기',
   'costs.history': '내역',
   'costs.everyoneSquare': '모두 정산 완료',
   'costs.nothingOutstanding': '현재 미결제 금액이 없습니다.',

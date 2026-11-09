@@ -87,6 +87,7 @@ const budget: TranslationStrings = {
   'costs.youLent': '{amount}を立て替えました',
   'costs.youBorrowed': '{amount}を借りています',
   'costs.settleUp': '精算する',
+  'costs.converter': '通貨換算',
   'costs.history': '履歴',
   'costs.everyoneSquare': '全員が清算済みです',
   'costs.nothingOutstanding': '現在、未払いの支払いはありません。',

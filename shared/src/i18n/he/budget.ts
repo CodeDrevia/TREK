@@ -98,6 +98,7 @@ const budget: TranslationStrings = {
   'costs.youLent': 'הלוויתם {amount}',
   'costs.youBorrowed': 'לוויתם {amount}',
   'costs.settleUp': 'התחשבנות',
+  'costs.converter': 'ממיר מטבעות',
   'costs.history': 'היסטוריה',
   'costs.everyoneSquare': 'כולם מאוזנים',
   'costs.nothingOutstanding': 'אין כרגע תשלומים פתוחים.',

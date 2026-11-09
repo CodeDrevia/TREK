@@ -91,6 +91,7 @@ const budget: TranslationStrings = {
   'costs.youLent': '{amount} verdiniz',
   'costs.youBorrowed': '{amount} aldınız',
   'costs.settleUp': 'Hesaplaş',
+  'costs.converter': 'Döviz çevirici',
   'costs.history': 'Geçmiş',
   'costs.everyoneSquare': 'Herkesin hesabı kapalı',
   'costs.nothingOutstanding': 'Şu anda bekleyen ödeme yok.',

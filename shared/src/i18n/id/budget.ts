@@ -87,6 +87,7 @@ const budget: TranslationStrings = {
   'costs.youLent': 'kamu meminjamkan {amount}',
   'costs.youBorrowed': 'kamu meminjam {amount}',
   'costs.settleUp': 'Lunasi',
+  'costs.converter': 'Konverter',
   'costs.history': 'Riwayat',
   'costs.everyoneSquare': 'Semua sudah impas',
   'costs.nothingOutstanding': 'Tidak ada pembayaran tertunggak saat ini.',

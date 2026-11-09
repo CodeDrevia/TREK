@@ -25,6 +25,7 @@ import {
 } from '../../../../components/Budget/costsModel'
 import type { BudgetParticipantFinal } from '@trek/shared'
 import type { BudgetItem, BudgetItemReceipt } from '../../../../types'
+import MCostsConverter from './MCostsConverter'
 
 type TFn = (key: string, params?: Record<string, string | number>) => string
 
@@ -192,6 +193,8 @@ export default function MCostsTab({ planner, shell }: MTabScreenProps) {
           </div>
         </div>
       )}
+
+      <MCostsConverter tripCurrency={tripCurrency} />
 
       {/* Settle up (spec §3.4) */}
       <div className="mt-2 rounded-2xl border border-[color:var(--m-rowbr)] bg-m-card p-[13px]">

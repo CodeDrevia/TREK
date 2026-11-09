@@ -294,6 +294,12 @@
       "mobile": ["src/mobile/screens/trip/tabs/MCostsPayment.tsx"]
     },
     {
+      "feature": "Costs currency converter (Drevia fork)",
+      "hooks": ["src/components/Dashboard/useCurrencyConverter.ts", "src/components/Dashboard/useCostsConverterPair.ts"],
+      "desktop": ["src/components/Budget/CostsConverter.tsx"],
+      "mobile": ["src/mobile/screens/trip/tabs/MCostsConverter.tsx"]
+    },
+    {
       "feature": "Create/edit trip form",
       "hooks": ["src/components/Trips/tripFormModel.ts", "src/components/Trips/useTripCoverPicker.ts"],
       "desktop": ["src/components/Trips/TripFormModal.tsx"],

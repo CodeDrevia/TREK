@@ -257,7 +257,7 @@ export default function CostsPanel({ tripId, tripMembers = [] }: CostsPanelProps
         canEdit={canEdit} canSettle={(settlement?.flows || []).length > 0}
         onSettleAll={settleAll} onAddExpense={() => { setEditing(null); setModalOpen(true) }}
         onScanReceipt={receiptScan.offered ? receiptScan.open : undefined}
-        view={view} onView={setView}
+        view={view} onView={setView} tripCurrency={tripCurrency}
         filters={{
           query: search, onQuery: setSearch,
           owner: filter, onOwner: setFilter,

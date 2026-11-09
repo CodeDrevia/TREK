@@ -90,6 +90,7 @@ const budget: TranslationStrings = {
   'costs.youLent': 'คุณให้ยืม {amount}',
   'costs.youBorrowed': 'คุณยืม {amount}',
   'costs.settleUp': 'เคลียร์ยอด',
+  'costs.converter': 'แปลงสกุลเงิน',
   'costs.history': 'ประวัติ',
   'costs.everyoneSquare': 'ทุกคนเคลียร์ยอดแล้ว',
   'costs.nothingOutstanding': 'ไม่มียอดค้างชำระในขณะนี้',

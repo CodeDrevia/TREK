@@ -92,6 +92,7 @@ const budget: TranslationStrings = {
   'costs.youLent': '{amount} kölcsönadtál',
   'costs.youBorrowed': '{amount} kölcsönkértél',
   'costs.settleUp': 'Elszámolás',
+  'costs.converter': 'Átváltó',
   'costs.history': 'Előzmények',
   'costs.everyoneSquare': 'Mindenki kvittben van',
   'costs.nothingOutstanding': 'Jelenleg nincs kifizetendő összeg.',

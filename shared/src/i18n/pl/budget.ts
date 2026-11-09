@@ -96,6 +96,7 @@ const budget: TranslationStrings = {
   'costs.youLent': 'pożyczyłeś {amount}',
   'costs.youBorrowed': 'pożyczyłeś od innych {amount}',
   'costs.settleUp': 'Rozlicz',
+  'costs.converter': 'Przelicznik',
   'costs.history': 'Historia',
   'costs.everyoneSquare': 'Wszyscy rozliczeni',
   'costs.nothingOutstanding': 'Brak nierozliczonych płatności.',

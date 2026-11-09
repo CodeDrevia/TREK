@@ -86,6 +86,7 @@ const budget: TranslationStrings = {
   'costs.youLent': '你借出 {amount}',
   'costs.youBorrowed': '你借入 {amount}',
   'costs.settleUp': '結清',
+  'costs.converter': '匯率換算',
   'costs.history': '歷史紀錄',
   'costs.everyoneSquare': '大家都已結清',
   'costs.nothingOutstanding': '目前沒有待付款項。',

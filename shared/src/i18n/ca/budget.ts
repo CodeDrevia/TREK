@@ -88,6 +88,7 @@ const budget: TranslationStrings = {
   'costs.youLent': 'has prestat {amount}',
   'costs.youBorrowed': 'has manllevat {amount}',
   'costs.settleUp': 'Liquidar comptes',
+  'costs.converter': 'Conversor de divises',
   'costs.history': 'Historial',
   'costs.everyoneSquare': 'Tothom està al dia',
   'costs.nothingOutstanding': 'No hi ha pagaments pendents ara matrix.',

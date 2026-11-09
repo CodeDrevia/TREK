@@ -86,6 +86,7 @@ const budget: TranslationStrings = {
   'costs.youLent': '你垫付了 {amount}',
   'costs.youBorrowed': '你欠了 {amount}',
   'costs.settleUp': '结算',
+  'costs.converter': '汇率换算',
   'costs.history': '历史记录',
   'costs.everyoneSquare': '大家已两清',
   'costs.nothingOutstanding': '目前没有待结算的款项。',
