@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { normalizeTileUrl, withTileApiKey, stripTileApiKey, resolveTileUrl } from './tileUrl'
+import { normalizeTileUrl, withTileApiKey, stripTileApiKey, resolveTileUrl, darkTileTwin } from './tileUrl'
 
 describe('normalizeTileUrl', () => {
   it('drops the {s} placeholder from an OSM template', () => {
@@ -170,5 +170,28 @@ describe('resolveTileUrl', () => {
     // A self-hosted template reaches the network without the key, even when the
     // fallback would have been CARTO.
     expect(resolveTileUrl(SELF_HOSTED, CARTO, 'abc123')).toBe(SELF_HOSTED)
+  })
+})
+
+describe('darkTileTwin (Drevia fork)', () => {
+  const POSITRON = 'https://tiles.openfreemap.org/styles/positron'
+  const OFM_DARK = 'https://tiles.openfreemap.org/styles/dark'
+  const LIGHT = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'
+  const DARK = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+
+  it('swaps the Positron default for the OpenFreeMap dark style', () => {
+    expect(darkTileTwin(POSITRON)).toBe(OFM_DARK)
+  })
+
+  it('swaps CARTO light for CARTO dark and keeps the key', () => {
+    expect(darkTileTwin(`${LIGHT}?key=abc123`)).toBe(`${DARK}?key=abc123`)
+    expect(darkTileTwin(LIGHT)).toBe(DARK)
+  })
+
+  it('leaves a template without a twin as chosen', () => {
+    const custom = 'https://tiles.example.com/{z}/{x}/{y}.png'
+    expect(darkTileTwin(custom)).toBe(custom)
+    expect(darkTileTwin(OFM_DARK)).toBe(OFM_DARK)
+    expect(darkTileTwin(OSM)).toBe(OSM)
   })
 })

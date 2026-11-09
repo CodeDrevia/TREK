@@ -1,4 +1,5 @@
 import type { Dispatch, ReactElement, SetStateAction } from 'react'
+import { useThemedTileUrl } from '../../hooks/useTileUrl'
 import { createPortal } from 'react-dom'
 import { MapViewAuto as MapView } from '../../components/Map/MapViewAuto'
 import { MapCompassPill, type CompassMap } from '../../components/Map/MapCompassPill'
@@ -77,6 +78,7 @@ export function PlanMapStage({
   poi, tourMap, leftPanelPx, rightPanelPx, mapInsetLeft, mapInsetRight,
   glMap, setGlMap, poiPillEnabled, mapPois, distanceUnit, inspectorHeight = 0,
 }: Readonly<PlanMapStageProps>): ReactElement {
+  const themedTileUrl = useThemedTileUrl(mapTileUrl)
   // ACT-02: a tour compared with its actual track lays the track into the day's lines, dotted.
   const compared = useActivityCompareMap({
     enabled: !roadtripActive && !overviewActive && !isMobile,
@@ -111,7 +113,7 @@ export function PlanMapStage({
         onMapContextMenu={handleMapContextMenu}
         // No center/zoom: the map frames itself on the trip's places at mount, and
         // falls back to the world view when the trip has none.
-        tileUrl={mapTileUrl}
+        tileUrl={themedTileUrl}
         fitKey={fitKey}
         dayOrderMap={dayOrderMap}
         leftWidth={leftPanelPx}

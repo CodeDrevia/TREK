@@ -22,6 +22,7 @@ import TourPoiOverlay from '../../components/Tours/poi/TourPoiCard';
 import { usePoiInsertionPreview, withPreviewLine } from '../../components/Tours/poi/usePoiInsertionPreview';
 import { useTourPoiMarkers } from '../../components/Tours/poi/useTourPoiMarkers';
 import type { TerrainLegendLayout } from '../../components/Tours/terrain/TourTerrainMap';
+import { useThemedTileUrl } from '../../hooks/useTileUrl';
 import { isRtlLanguage, useTranslation } from '../../i18n';
 import { selectPaddleObstacle, usePaddleObstacleStore } from '../../store/paddleObstacleStore';
 import { useSettingsStore } from '../../store/settingsStore';
@@ -115,6 +116,7 @@ export function TourPlannerMapStage({
   paddleChecklist,
   assistantRoutes,
 }: Readonly<TourPlannerMapStageProps>): ReactElement {
+  const themedTileUrl = useThemedTileUrl(mapTileUrl);
   const [terrainAsked, setTerrain3d] = useState(false);
   // The terrain is a MapLibre map, so it needs WebGL2. Without it, or once its GPU
   // refused the context, the stage stays on the 2D map and says why.
@@ -292,7 +294,7 @@ export function TourPlannerMapStage({
                 ? ({ latlng }: { latlng: { lat: number; lng: number } }) => onAddOrMark(latlng.lat, latlng.lng)
                 : undefined
             }
-            tileUrl={mapTileUrl}
+            tileUrl={themedTileUrl}
             leftWidth={leftPanelPx}
             rightWidth={rightPanelPx}
             focusPoints={tourMap.focusPoints}

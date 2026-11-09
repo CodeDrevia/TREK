@@ -10,10 +10,8 @@ import { useMergedMapPois } from '../../../../components/Map/useMergedMapPois'
 import { firstStopOfPlace, stageOf } from '../../../../components/Roadtrip/roadtripRowModel'
 import { stageMapData } from '../../../../components/Roadtrip/stageMap'
 import { usePlanMapViewport } from '../../../../hooks/usePlanMapViewport'
-import { useIsDark } from '../../../../hooks/useIsDark'
-import { useTileUrl } from '../../../../hooks/useTileUrl'
+import { useThemedTileUrl } from '../../../../hooks/useTileUrl'
 import { useIsWide } from '../../../../hooks/sizeClass'
-import { OFM_DARK } from '../../../../constants/mapDefaults'
 import { useRoadtripSettings } from '../../../../hooks/useRoadtripSettings'
 import { useSettingsStore } from '../../../../store/settingsStore'
 import { useTripStore } from '../../../../store/tripStore'
@@ -181,11 +179,11 @@ export default function MMapArea({ planner, shell }: MMapAreaProps) {
   // On a wide window the map stands beside the pane and under the rail, a third
   // or more of the screen, so in the dark theme it takes the dark basemap the
   // journey and the atlas use rather than a bright patch beside a black pane.
-  // A basemap of the user's own choosing stays (useTileUrl prefers it).
-  const darkTileUrl = useTileUrl(OFM_DARK)
+  // A basemap of the user's own choosing stays; a light preset swaps for its
+  // dark twin (useThemedTileUrl, shared with the desktop planner — Drevia fork).
+  const themedTileUrl = useThemedTileUrl(planner.mapTileUrl)
   const wide = useIsWide()
-  const dark = useIsDark()
-  const tileUrl = wide && dark ? darkTileUrl : planner.mapTileUrl
+  const tileUrl = wide ? themedTileUrl : planner.mapTileUrl
   const distanceUnit = useSettingsStore(s => s.settings.distance_unit)
 
   const dayColorsOn = useRoadtripSettings(s => s.roadtrip_day_colors, planner.tripId)
