@@ -93,6 +93,7 @@ const budget: TranslationStrings = {
   'costs.youLent': 'půjčili jste {amount}',
   'costs.youBorrowed': 'vypůjčili jste si {amount}',
   'costs.settleUp': 'Vyrovnat',
+  'costs.converter': 'Převodník měn',
   'costs.history': 'Historie',
   'costs.everyoneSquare': 'Všichni jsou vyrovnáni',
   'costs.nothingOutstanding': 'Momentálně žádné nevyrovnané platby.',

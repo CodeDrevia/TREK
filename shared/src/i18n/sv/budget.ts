@@ -90,6 +90,7 @@ const budget: TranslationStrings = {
   'costs.youLent': 'du lånade ut {amount}',
   'costs.youBorrowed': 'du lånade {amount}',
   'costs.settleUp': 'Betala',
+  'costs.converter': 'Valutaomvandlare',
   'costs.history': 'Historik',
   'costs.everyoneSquare': 'Alla är likadana',
   'costs.nothingOutstanding': 'Det finns inga utestående betalningar just nu.',

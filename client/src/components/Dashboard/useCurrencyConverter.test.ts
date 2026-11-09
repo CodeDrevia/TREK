@@ -162,4 +162,19 @@ describe('useCurrencyConverter', () => {
     await waitFor(() => expect(result.current.rate).toBe(0.0056));
     expect(result.current.ratePending).toBe(false);
   });
+
+  it('FE-COMP-FXHOOK-DRV-001: a local pair starts where it is told and never moves the saved dashboard pair (Drevia fork)', async () => {
+    seedSettings({ dashboard_fx_from: 'EUR', dashboard_fx_to: 'USD' });
+    const { result } = renderHook(() => useCurrencyConverter({ from: 'CHF', to: 'EUR' }));
+    expect(result.current.from).toBe('CHF');
+    expect(result.current.to).toBe('EUR');
+    await waitFor(() => expect(fetchMock.mock.calls[0][0]).toContain('base=CHF'));
+
+    act(() => result.current.setTo('USD'));
+    expect(result.current.to).toBe('USD');
+    act(() => result.current.swap());
+    expect(result.current.from).toBe('USD');
+    expect(result.current.to).toBe('CHF');
+    expect(updateSetting).not.toHaveBeenCalled();
+  });
 });

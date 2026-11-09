@@ -10,17 +10,26 @@ import { CURRENCIES } from '../Budget/BudgetPanel.constants';
  * A request still in flight is aborted when a new one starts or the widget goes
  * away, so a late answer for an older `from` never overwrites a newer one and never
  * lands on a gone tree.
+ *
+ * Given `local`, the pair starts there and lives in the component instead: the
+ * Costs tab opens it on the trip's currency and must not move the dashboard's
+ * saved pair (Drevia fork).
  */
-export function useCurrencyConverter() {
+export function useCurrencyConverter(local?: { from: string; to: string }) {
   const isLoaded = useSettingsStore((s) => s.isLoaded);
   const updateSetting = useSettingsStore((s) => s.updateSetting);
-  const from = useSettingsStore((s) => s.settings.dashboard_fx_from) || 'EUR';
-  const to = useSettingsStore((s) => s.settings.dashboard_fx_to) || 'USD';
+  const savedFrom = useSettingsStore((s) => s.settings.dashboard_fx_from) || 'EUR';
+  const savedTo = useSettingsStore((s) => s.settings.dashboard_fx_to) || 'USD';
+  const [localPair, setLocalPair] = useState(local ?? null);
+  const from = localPair ? localPair.from : savedFrom;
+  const to = localPair ? localPair.to : savedTo;
   const setFrom = (v: string) => {
-    updateSetting('dashboard_fx_from', v).catch(() => {});
+    if (localPair) setLocalPair((p) => (p ? { ...p, from: v } : p));
+    else updateSetting('dashboard_fx_from', v).catch(() => {});
   };
   const setTo = (v: string) => {
-    updateSetting('dashboard_fx_to', v).catch(() => {});
+    if (localPair) setLocalPair((p) => (p ? { ...p, to: v } : p));
+    else updateSetting('dashboard_fx_to', v).catch(() => {});
   };
   const [amount, setAmount] = useState('100');
   // The rates carry the base they were fetched for: the pair can change before
@@ -99,6 +108,10 @@ export function useCurrencyConverter() {
   const ratePending = isLoaded && !current && failedBase !== from;
   const converted = rate != null ? (Number.parseFloat(amount.replace(',', '.')) || 0) * rate : null;
   const swap = () => {
+    if (localPair) {
+      setLocalPair({ from: to, to: from });
+      return;
+    }
     setFrom(to);
     setTo(from);
   };

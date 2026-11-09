@@ -91,6 +91,7 @@ const budget: TranslationStrings = {
   'costs.youLent': 'je hebt {amount} voorgeschoten',
   'costs.youBorrowed': 'je hebt {amount} geleend',
   'costs.settleUp': 'Afrekenen',
+  'costs.converter': 'Omrekenen',
   'costs.history': 'Geschiedenis',
   'costs.everyoneSquare': 'Iedereen is quitte',
   'costs.nothingOutstanding': 'Er staan op dit moment geen betalingen open.',

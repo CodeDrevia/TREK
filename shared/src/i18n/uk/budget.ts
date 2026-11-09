@@ -96,6 +96,7 @@ const budget: TranslationStrings = {
   'costs.youLent': 'ви позичили {amount}',
   'costs.youBorrowed': 'ви заборгували {amount}',
   'costs.settleUp': 'Розрахуватися',
+  'costs.converter': 'Конвертер валют',
   'costs.history': 'Історія',
   'costs.everyoneSquare': 'Усі розрахувалися',
   'costs.nothingOutstanding': 'Зараз немає непогашених платежів.',

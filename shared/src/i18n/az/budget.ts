@@ -104,6 +104,8 @@ const budget: TranslationStrings = {
   'costs.youBorrowed': '{amount} borc aldınız',
 
   'costs.settleUp': 'Hesablaş',
+  'costs.converter': 'Valyuta çevirici',
+
   'costs.history': 'Tarixçə',
   'costs.everyoneSquare': 'Hamının hesabı bağlanıb',
   'costs.nothingOutstanding': 'Hazırda gözləyən heç bir ödəniş yoxdur.',

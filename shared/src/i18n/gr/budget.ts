@@ -92,6 +92,7 @@ const budget: TranslationStrings = {
   'costs.youLent': 'δανείσατε {amount}',
   'costs.youBorrowed': 'δανειστήκατε {amount}',
   'costs.settleUp': 'Εξόφληση',
+  'costs.converter': 'Μετατροπέας',
   'costs.history': 'Ιστορικό',
   'costs.everyoneSquare': 'Όλοι είναι ξεκάθαροι',
   'costs.nothingOutstanding': 'Δεν υπάρχουν εκκρεμείς πληρωμές αυτή τη στιγμή.',

@@ -102,6 +102,7 @@ const budget: TranslationStrings = {
   'costs.youLent': 'أقرضت {amount}',
   'costs.youBorrowed': 'اقترضت {amount}',
   'costs.settleUp': 'تسوية الحساب',
+  'costs.converter': 'محوّل العملات',
   'costs.history': 'السجل',
   'costs.everyoneSquare': 'الجميع متعادلون',
   'costs.nothingOutstanding': 'لا توجد مدفوعات معلّقة الآن.',

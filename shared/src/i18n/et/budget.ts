@@ -94,6 +94,7 @@ const budget: TranslationStrings = {
   'costs.youLent': 'laenasid välja {amount}',
   'costs.youBorrowed': 'võtsid laenu {amount}',
   'costs.settleUp': 'Arvelda',
+  'costs.converter': 'Valuutamuundur',
   'costs.history': 'Ajalugu',
   'costs.everyoneSquare': 'Kõik on tasa',
   'costs.nothingOutstanding': 'Praegu pole tasumata makseid.',
