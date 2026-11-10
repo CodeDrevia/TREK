@@ -24,6 +24,7 @@ commit, squash-merged), so a rebase replays them one by one. Prefix the subject 
 | `drevia: DREVIA.md` | This file. |
 | `drevia: planner map follows dark mode` | Desktop planner map used the light tile in dark mode. |
 | `drevia: currency converter on the Costs page` | Converter only lived on the dashboard. |
+| `drevia: readable labels on the dark map` | OpenFreeMap dark drew place and street names at 3.4:1 and 2.4:1; override in `components/Map/darkBasemapLabels.ts`. |
 
 ## Rebasing onto a new upstream release
 

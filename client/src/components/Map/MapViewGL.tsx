@@ -968,7 +968,7 @@ export function MapViewGL({
     if (isMapLibre) mapOptions.aroundCenter = false
 
     // Null when the GPU refused WebGL2: MapViewAuto has switched to Leaflet by then.
-    const map = buildGlMap(() => new gl.Map(mapOptions as any))
+    const map = buildGlMap(() => new gl.Map(mapOptions as any), glStyle)
     if (!map) return
     mapRef.current = map
     popupRef.current = new gl.Popup({

@@ -13,6 +13,7 @@ import { isChunkLoadError, reloadOnceForChunk } from '../../utils/chunkReload'
 import { offlineStyle } from '../../native/offlineTiles'
 import { isNativeIos } from '../../native/platform'
 import { nativeRasterTemplate } from '../../native/tileCache'
+import { brightenDarkLabels } from './darkBasemapLabels'
 
 /** The Leaflet layer maplibre-gl-leaflet hands back. */
 export type GlLeafletLayer = InstanceType<typeof MaplibreGL>
@@ -106,8 +107,14 @@ function attachGlLayer(map: L.Map, layer: GlLeafletLayer, style: string): boolea
     return false
   }
   creditBasemap(map, style)
+  layerStyles.set(layer, style)
+  const gl = layer.getMaplibreMap?.()
+  if (gl) brightenDarkLabels(gl, () => layerStyles.get(layer))
   return true
 }
+
+/** The style each GL layer last loaded, read by its label override after every restyle (Drevia fork). */
+const layerStyles = new WeakMap<GlLeafletLayer, string>()
 
 /*
  * Whether the vector basemap can draw here. In the iOS app the MapLibre layer
@@ -178,6 +185,7 @@ export function detachBasemapLayer(layer: BasemapLayer | null | undefined): void
  */
 export function restyleBasemap(layer: BasemapLayer | null | undefined, style: string): void {
   if (!layer || !isGlLayer(layer)) return
+  layerStyles.set(layer, style)
   layer.getMaplibreMap()?.setStyle(offlineStyle(style))
 }
 
