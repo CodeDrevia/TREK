@@ -1,6 +1,7 @@
 import { useSyncExternalStore } from 'react';
 import { offlineStyle } from '../../native/offlineTiles';
 import { hasWebGL, reportWebGLFailure, subscribeWebGL, webGLFailures } from '../../utils/webgl';
+import { brightenDarkLabels, type LabelStyleMap } from './darkBasemapLabels';
 import type { GlMapProvider } from './glProviders';
 
 /*
@@ -73,16 +74,26 @@ export function initialMapStyle(provider: GlMapProvider, style: string): string 
   return provider === 'maplibre-gl' ? offlineStyle(style) : style;
 }
 
-export function buildGlMap<T>(construct: () => T): T | null {
+/**
+ * `style` is the style URL the map was built with; on OpenFreeMap dark its labels are
+ * brightened (darkBasemapLabels.ts, Drevia fork). Every other style is left alone.
+ */
+export function buildGlMap<T>(construct: () => T, style?: string): T | null {
   try {
     const map = construct();
     if (isResizableGlMap(map)) followContainerSize(map);
+    if (style && isLabelStyleMap(map)) brightenDarkLabels(map, () => style);
     return map;
   } catch (err) {
     if (!isGpuInitFailure(err)) throw err;
     reportWebGLFailure();
     return null;
   }
+}
+
+function isLabelStyleMap(map: unknown): map is LabelStyleMap {
+  const candidate = map as Partial<LabelStyleMap> | null;
+  return typeof candidate?.setPaintProperty === 'function' && typeof candidate.isStyleLoaded === 'function';
 }
 
 interface ResizableGlMap {

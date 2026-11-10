@@ -251,8 +251,8 @@ describe('hideLabelLayers', () => {
 
     // setStyle discards the layout properties along with the old style, so the
     // theme toggle would bring the labels back without this.
-    const onStyleLoad = gl.on.mock.calls.find((c: unknown[]) => c[0] === 'style.load')![1] as () => void
-    onStyleLoad()
+    // Every listener, not the first: attach registers the dark-label override too (Drevia fork).
+    for (const c of gl.on.mock.calls.filter((c: unknown[]) => c[0] === 'style.load')) (c[1] as () => void)()
     expect(gl.setLayoutProperty).toHaveBeenCalledTimes(2)
   })
 
